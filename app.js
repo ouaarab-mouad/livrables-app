@@ -9,6 +9,11 @@ const empruntRoutes = require('./routes/emprunts');
 const MongoStore = require('connect-mongo');
 const indexRoutes = require('./routes/index');
 const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config();
+
+// Set port
+const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,20 +22,21 @@ app.use(methodOverride('_method'));
 
 // Set EJS as view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Configure session - consolidated into a single configuration
 app.use(session({
-  secret: 'your-very-secret-key-12345',
+  secret: process.env.SESSION_SECRET || 'your-very-secret-key-12345',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: 'mongodb://localhost:27017/livrables',
+    mongoUrl: process.env.MONGODB_URI || 'mongodb+srv://warabmoad:9QYTF00AjWJmtpFT@cluster0.cdkrawh.mongodb.net/livrables?retryWrites=true&w=majority',
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
     httpOnly: true,
-    secure: false // Set to true if using HTTPS
+    secure: process.env.NODE_ENV === 'production' // Set to true if using HTTPS
   }
 }));
 
@@ -44,8 +50,8 @@ app.use((req, res, next) => {
 });
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/livrables')
-  .then(() => console.log('MongoDB connected'))
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://warabmoad:9QYTF00AjWJmtpFT@cluster0.cdkrawh.mongodb.net/livrables?retryWrites=true&w=majority')
+  .then(() => console.log('MongoDB Atlas connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
@@ -92,7 +98,6 @@ const etudiantRoutes = require('./routes/etudiants');
 app.use('/etudiants', etudiantRoutes);
 
 // Start server
-const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}/login`);
 });

@@ -1,17 +1,29 @@
 {
     "name": "livrables-login",
     "version": "1.0.0",
+    "description": "Système de gestion de bibliothèque",
+    "main": "app.js",
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "dev": "nodemon app.js"
+    },
+    "engines": {
+        "node": ">=14.0.0"
     },
     "dependencies": {
         "body-parser": "^2.2.0",
         "connect-mongo": "^5.1.0",
+        "dotenv": "^16.5.0",
         "ejs": "^3.1.10",
         "express": "^4.21.2",
         "express-session": "^1.18.1",
         "font-awesome": "^4.7.0",
         "method-override": "^3.0.0",
         "mongoose": "^8.13.3"
-    }
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.22"
+    },
+    "author": "",
+    "license": "ISC"
 }
