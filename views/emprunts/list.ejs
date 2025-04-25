@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestion Emprunts</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn-add { 
+      background: #28a745; 
+      color: white; 
+      padding: 8px 15px; 
+      margin-bottom: 15px; 
+      display: inline-block; 
+      text-decoration: none; 
+    }
+    .btn-return { color: #007bff; border: none; background: none; cursor: pointer; }
+    .returned { color: #28a745; }
+    .overdue { color: #dc3545; }
+  </style>
+</head>
+<body>
+  <%- include('../partials/menu') %>
+
+  <div class="content">
+    <h1>Gestion des Emprunts</h1>
+    <a href="/emprunts/add" class="btn-add">+ Nouvel Emprunt</a>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Livre</th>
+          <th>Date Emprunt</th>
+          <th>Date Retour</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% emprunts.forEach(emprunt => { %>
+          <tr>
+            <td><%= emprunt.student_id.first_name %> <%= emprunt.student_id.last_name %></td>
+            <td><%= emprunt.book_id.title %> (<%= emprunt.book_id.isbn %>)</td>
+            <td><%= emprunt.borrow_date.toLocaleDateString() %></td>
+            <td><%= emprunt.return_date ? emprunt.return_date.toLocaleDateString() : '-' %></td>
+            <td class="<%= emprunt.status %>"><%= emprunt.status %></td>
+            <td>
+              <% if (emprunt.status === 'borrowed') { %>
+                <form action="/emprunts/<%= emprunt._id %>/return" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-return">Retourner</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

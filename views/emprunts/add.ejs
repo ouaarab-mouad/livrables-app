@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nouvel Emprunt</title>
+  <style>
+    .form-container { max-width: 500px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    select, button { width: 100%; padding: 8px; }
+    .btn-submit { background: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <%- include('../partials/menu') %>
+
+  <div class="form-container">
+    <h1>Nouvel Emprunt</h1>
+    
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+    
+    <form action="/emprunts" method="POST">
+      <div class="form-group">
+        <label for="student_id">Étudiant:</label>
+        <select id="student_id" name="student_id" required>
+          <option value="">Sélectionner un étudiant</option>
+          <% etudiants.forEach(etudiant => { %>
+            <option value="<%= etudiant._id %>">
+              <%= etudiant.last_name %> <%= etudiant.first_name %> (<%= etudiant.student_id %>)
+            </option>
+          <% }); %>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="book_id">Livre:</label>
+        <select id="book_id" name="book_id" required>
+          <option value="">Sélectionner un livre</option>
+          <% livres.forEach(livre => { %>
+            <option value="<%= livre._id %>">
+              <%= livre.title %> par <%= livre.author %> (Disponibles: <%= livre.available_quantity %>)
+            </option>
+          <% }); %>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn-submit">Enregistrer</button>
+    </form>
+  </div>
+</body>
+</html>

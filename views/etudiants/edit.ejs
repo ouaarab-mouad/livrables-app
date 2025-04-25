@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Modifier Étudiant</title>
+  <style>
+    /* Reuse the same styles as add.ejs */
+    .form-container {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    .btn-submit {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/menu') %>
+
+  <div class="form-container">
+    <h1>Modifier Étudiant</h1>
+    
+    <form action="/etudiants/<%= etudiant._id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label for="student_id">ID Étudiant:</label>
+        <input type="text" id="student_id" name="student_id" value="<%= etudiant.student_id %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="first_name">Prénom:</label>
+        <input type="text" id="first_name" name="first_name" value="<%= etudiant.first_name %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="last_name">Nom:</label>
+        <input type="text" id="last_name" name="last_name" value="<%= etudiant.last_name %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= etudiant.email %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Téléphone:</label>
+        <input type="text" id="phone" name="phone" value="<%= etudiant.phone %>">
+      </div>
+      
+      <button type="submit" class="btn-submit">Mettre à jour</button>
+    </form>
+  </div>
+</body>
+</html>

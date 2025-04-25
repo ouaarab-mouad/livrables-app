@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestion Étudiants</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn-delete { color: red; text-decoration: none; }
+    btn-add {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .btn-add:hover {
+    background: #218838;
+  }
+  .btn-edit {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  .btn-edit:hover {
+    text-decoration: underline;
+  }
+  </style>
+</head>
+<body>
+  <%- include('../partials/menu') %>
+
+  <div class="content">
+    <h1>Gestion des Étudiants</h1>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% etudiants.forEach(etudiant => { %>
+          <tr>
+            <td><%= etudiant.student_id %></td>
+            <td><%= etudiant.last_name %></td>
+            <td><%= etudiant.first_name %></td>
+            <td><%= etudiant.email %></td>
+            <td>
+                <a href="/etudiants/<%= etudiant._id %>/edit" class="btn-edit">Modifier</a>
+                <form action="/etudiants/<%= etudiant._id %>/delete" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-delete">Supprimer</button>
+                </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="actions">
+    <a href="/etudiants/add" class="btn-add">+ Ajouter Étudiant</a>
+  </div>
+</body>
+</html>

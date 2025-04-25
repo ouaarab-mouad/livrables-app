@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestion Livres</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn-add { 
+      background: #28a745; 
+      color: white; 
+      padding: 8px 15px; 
+      margin-bottom: 15px; 
+      display: inline-block; 
+      text-decoration: none; 
+    }
+    .btn-delete { color: red; border: none; background: none; cursor: pointer; }
+  </style>
+  <style>
+    .btn-edit {
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .btn-edit:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../partials/menu') %>
+
+  <div class="content">
+    <h1>Gestion des Livres</h1>
+    <a href="/livres/add" class="btn-add">+ Ajouter Livre</a>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>ISBN</th>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Disponibles</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% livres.forEach(livre => { %>
+          <tr>
+            <td><%= livre.isbn %></td>
+            <td><%= livre.title %></td>
+            <td><%= livre.author %></td>
+            <td><%= livre.available_quantity %>/<%= livre.total_quantity %></td>
+            <td>
+                <a href="/livres/<%= livre._id %>/edit" class="btn-edit">Modifier</a>
+                <form action="/livres/<%= livre._id %>/delete" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-delete">Supprimer</button>
+                </form>
+              </td>
+              
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

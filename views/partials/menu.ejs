@@ -1,0 +1,103 @@
+<div class="menu">
+  <div class="menu-container">
+    <div class="logo">
+      <h1>Bibliothèque</h1>
+    </div>
+    <nav>
+      <a href="/home" class="menu-item">
+        <i>🏠</i> Accueil
+      </a>
+      <a href="/etudiants" class="menu-item">
+        <i>👥</i> Étudiants
+      </a>
+      <a href="/livres" class="menu-item">
+        <i>📚</i> Livres
+      </a>
+      <a href="/emprunts" class="menu-item">
+        <i>📖</i> Emprunts
+      </a>
+      <a href="/logout" class="menu-item logout">
+        <i>🚪</i> Déconnexion
+      </a>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .menu {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+    color: #4e73df;
+    margin: 0;
+    padding: 15px 0;
+  }
+  
+  nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 15px;
+    text-decoration: none;
+    color: #5a5c69;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .menu-item i {
+    margin-right: 8px;
+    font-style: normal;
+  }
+  
+  .menu-item:hover {
+    color: #4e73df;
+    border-bottom: 3px solid #4e73df;
+  }
+  
+  .menu-item.logout {
+    color: #e74a3b;
+  }
+  
+  .menu-item.logout:hover {
+    color: #e74a3b;
+    border-bottom: 3px solid #e74a3b;
+  }
+  
+  @media (max-width: 768px) {
+    .menu-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+    
+    .logo {
+      margin-bottom: 10px;
+    }
+    
+    nav {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .menu-item {
+      padding: 10px;
+    }
+  }
+</style>
