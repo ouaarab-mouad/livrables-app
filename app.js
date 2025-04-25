@@ -36,7 +36,8 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24, // 1 day
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production' // Set to true if using HTTPS
+    secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production
+    sameSite: 'lax'
   }
 }));
 
@@ -44,7 +45,8 @@ app.use(session({
 app.use((req, res, next) => {
   console.log('Session Debug:', {
     id: req.sessionID,
-    data: req.session
+    data: req.session,
+    cookies: req.cookies
   });
   next();
 });
@@ -68,19 +70,40 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   
+  console.log('Login attempt:', { username, sessionID: req.sessionID });
+  
   // Hardcoded credentials (admin/admin)
   if (username === 'admin' && password === 'admin') {
     req.session.isLoggedIn = true;
-    return res.redirect('/home');
+    req.session.user = { username: 'admin' };
+    
+    // Save session explicitly
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).render('auth/login', { error: 'Session error occurred' });
+      }
+      console.log('Login successful, redirecting to home');
+      return res.redirect('/home');
+    });
   } else {
+    console.log('Login failed: Invalid credentials');
     res.render('auth/login', { error: 'Invalid credentials!' });
   }
 });
 
-// Home page
+// Home page - Add authentication check
 app.get('/home', (req, res) => {
-  if (!req.session.isLoggedIn) return res.redirect('/login');
-  res.render('home'); // Render the home.ejs file
+  console.log('Home page access:', { 
+    sessionID: req.sessionID, 
+    isLoggedIn: req.session.isLoggedIn 
+  });
+  
+  if (!req.session.isLoggedIn) {
+    console.log('Unauthorized access attempt to home page');
+    return res.redirect('/login');
+  }
+  res.render('home');
 });
 
 // Root route
@@ -96,6 +119,15 @@ app.get('/logout', (req, res) => {
 
 const etudiantRoutes = require('./routes/etudiants');
 app.use('/etudiants', etudiantRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).render('error', { 
+    message: 'Une erreur est survenue sur le serveur',
+    error: process.env.NODE_ENV === 'development' ? err : {}
+  });
+});
 
 // Start server
 app.listen(PORT, () => {
