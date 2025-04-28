@@ -3,179 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion - Bibliothèque</title>
+  <title>Login - Bibliothèque</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #4e73df;
-      --secondary-color: #1cc88a;
-      --info-color: #36b9cc;
-      --warning-color: #f6c23e;
-      --danger-color: #e74a3b;
-      --light-color: #f8f9fc;
-      --dark-color: #5a5c69;
-      --border-color: #e3e6f0;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
     body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #333;
-      line-height: 1.6;
+      background-color: #f8f9fa;
     }
-    
     .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 450px;
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    
-    .login-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    }
-    
     .login-header {
       text-align: center;
       margin-bottom: 30px;
     }
-    
     .login-header h1 {
-      color: var(--primary-color);
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-    
-    .login-header p {
-      color: #6c757d;
-      font-size: 1rem;
-    }
-    
-    .login-icon {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      color: var(--primary-color);
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--dark-color);
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-    }
-    
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
-    }
-    
-    .btn-login {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    
-    .btn-login:hover {
-      background: #2e59d9;
-    }
-    
-    .alert {
-      padding: 12px 15px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
-    }
-    
-    .alert-danger {
-      background-color: rgba(231, 74, 59, 0.1);
-      color: var(--danger-color);
-      border-left: 4px solid var(--danger-color);
-    }
-    
-    .login-footer {
-      text-align: center;
-      margin-top: 20px;
-      color: #6c757d;
-      font-size: 0.9rem;
-    }
-    
-    @media (max-width: 576px) {
-      .login-container {
-        margin: 20px;
-        padding: 30px;
-      }
+      color: #333;
+      font-size: 24px;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-header">
-      <div class="login-icon">📚</div>
-      <h1>Bibliothèque</h1>
-      <p>Connectez-vous pour accéder au système</p>
-    </div>
-    
-    <% if (error) { %>
-      <div class="alert alert-danger"><%= error %></div>
-    <% } %>
-    
-    <form action="/login" method="POST">
-      <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username" placeholder="Entrez votre nom d'utilisateur" required>
+  <div class="container">
+    <div class="login-container">
+      <div class="login-header">
+        <h1>Bibliothèque Login</h1>
       </div>
-      
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <% if (error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= error %>
+          </div>
+        <% } %>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+      <div class="mt-3 text-center">
+        <small class="text-muted">Default credentials: admin/admin</small>
       </div>
-      
-      <button type="submit" class="btn-login">Se connecter</button>
-    </form>
-    
-    <div class="login-footer">
-      <p>&copy; 2023 Système de Gestion de Bibliothèque</p>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

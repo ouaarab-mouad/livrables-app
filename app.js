@@ -32,14 +32,30 @@ app.use('/emprunts', empruntRoutes);
 app.use('/livres', livreRoutes);
 app.use('/', indexRoutes);
 
+// Login route (GET)
+app.get('/login', (req, res) => {
+  res.render('auth/login', { error: null });
+});
+
+// Login route (POST) - Simple static check
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  if (username === 'admin' && password === 'admin') {
+    res.redirect('/home');
+  } else {
+    res.render('auth/login', { error: 'Invalid credentials! Use admin/admin' });
+  }
+});
+
 // Home page - No authentication check
 app.get('/home', (req, res) => {
   res.render('home');
 });
 
-// Root route - Direct to home
+// Root route - Direct to login
 app.get('/', (req, res) => {
-  res.redirect('/home');
+  res.redirect('/login');
 });
 
 const etudiantRoutes = require('./routes/etudiants');
