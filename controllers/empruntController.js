@@ -5,15 +5,21 @@ const Livre = require('../models/Livre');
 // List all borrowings
 exports.listEmprunts = async (req, res) => {
   try {
+    console.log('Attempting to fetch emprunts...');
     const emprunts = await Emprunt.find()
       .populate('student_id', 'first_name last_name student_id')
       .populate('book_id', 'title author isbn')
       .sort({ borrow_date: -1 });
     
+    console.log(`Found ${emprunts.length} emprunts`);
     res.render('emprunts/list', { emprunts });
   } catch (err) {
-    console.error(err);
-    res.redirect('/home');
+    console.error('Error in listEmprunts:', err);
+    console.error('Error stack:', err.stack);
+    res.status(500).render('error', { 
+      message: 'Une erreur est survenue lors de la récupération des emprunts',
+      error: process.env.NODE_ENV === 'development' ? err : {}
+    });
   }
 };
 
